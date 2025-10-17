@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Fun Interactive Tools</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .tool-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        .tool-box {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
+        }
+        .tool-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        h2 {
+            color: #0056b3;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #1e1e1e;
+            color: #f4f4f9;
+        }
+        body.dark-mode .tool-box {
+            background-color: #333;
+            border-color: #555;
+            box-shadow: 0 4px 8px rgba(255,255,255,0.1);
+        }
+        body.dark-mode h2 {
+            color: #64b5f6;
+            border-bottom-color: #444;
+        }
+        /* Specific Tool Styles */
+        #colorDisplay {
+            width: 100px;
+            height: 30px;
+            border: 1px solid #ccc;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+            border-radius: 4px;
+        }
+        #todoList, #calculatorResult, #randomNumberDisplay {
+            margin-top: 10px;
+            padding: 5px;
+            border: 1px solid #eee;
+            min-height: 20px;
+        }
+        #todoList {
+            list-style: none;
+            padding: 0;
+        }
+        #todoList li {
+            padding: 5px 0;
+            border-bottom: 1px dotted #ccc;
+            cursor: pointer;
+        }
+        #todoList li.done {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .calc-input {
+            width: 40px;
+            text-align: center;
+        }
+        .calc-button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        #fadeImage {
+            width: 100px;
+            height: 100px;
+            background-color: #007bff; /* Placeholder for an image */
+            margin-top: 10px;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>✨ 10 Fun Interactive Tools Playground ✨</h1>
+
+    <div class="tool-container">
+
+        <div class="tool-box">
+            <h2>🎨 1. Color Picker Display</h2>
+            <input type="color" id="colorPicker" value="#0056b3" oninput="updateColorDisplay()">
+            <span id="colorDisplay"></span>
+        </div>
+
+        <div class="tool-box">
+            <h2>🔤 2. Character Counter</h2>
+            <textarea id="charCountInput" rows="3" placeholder="Start typing here..." oninput="countCharacters()"></textarea>
+            <p>Characters: <span id="charCount">0</span></p>
+        </div>
+
+        <div class="tool-box">
+            <h2>🧮 3. Basic Calculator</h2>
+            <input type="number" id="num1" class="calc-input" value="10">
+            <select id="operator">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="number" id="num2" class="calc-input" value="5">
+            <button onclick="calculate()" class="calc-button">=</button>
+            <div id="calculatorResult">Result: </div>
+        </div>
+
+        <div class="tool-box">
+            <h2>🎲 4. Random Number Generator</h2>
+            <label for="maxNum">Max Number (1 to):</label>
+            <input type="number" id="maxNum" value="100" min="1" style="width: 60px;">
+            <button onclick="generateRandomNumber()">Generate</button>
+            <p>Your random number is: <strong id="randomNumberDisplay">?</strong></p>
+        </div>
+
+        <div class="tool-box">
+            <h2>✅ 5. Simple To-Do List</h2>
+            <input type="text" id="todoInput" placeholder="New task..." style="width: 70%;">
+            <button onclick="addTodo()">Add</button>
+            <ul id="todoList">
+                <li onclick="toggleDone(this)">Click me to cross out</li>
+                <li onclick="toggleDone(this)">Buy milk</li>
+            </ul>
+        </div>
+
+        <div class="tool-box">
+            <h2>📝 6. Text Case Converter</h2>
+            <input type="text" id="caseInput" placeholder="Enter text" oninput="convertCase()">
+            <p>UPPERCASE: <strong id="upperCaseOutput"></strong></p>
+            <p>lowercase: <strong id="lowerCaseOutput"></strong></p>
+        </div>
+
+        <div class="tool-box">
+            <h2>🖱️ 7. Click Counter</h2>
+            <button onclick="incrementCount()">Click Me!</button>
+            <p>Total Clicks: <strong id="clickCount">0</strong></p>
+        </div>
+
+        <div class="tool-box">
+            <h2>☀️/🌙 8. Dark/Light Mode</h2>
+            <p>Change the site's theme.</p>
+            <button onclick="toggleDarkMode()">Toggle Mode</button>
+        </div>
+
+        <div class="tool-box">
+            <h2>🌫️ 9. Image Fader</h2>
+            <input type="range" min="0.1" max="1" step="0.05" value="1" id="opacityRange" oninput="changeOpacity()">
+            <p>Opacity: <span id="opacityValue">1.0</span></p>
+            <div id="fadeImage">Placeholder Box</div>
+        </div>
+
+        <div class="tool-box">
+            <h2>📏 10. Unit Converter (m to ft)</h2>
+            <label for="metersInput">Meters:</label>
+            <input type="number" id="metersInput" value="1" oninput="convertUnit()">
+            <p>Feet: <strong id="feetOutput">3.28084</strong></p>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. Color Picker Display ---
+        function updateColorDisplay() {
+            const picker = document.getElementById('colorPicker');
+            const display = document.getElementById('colorDisplay');
+            display.style.backgroundColor = picker.value;
+        }
+        // Initialize the display on load
+        updateColorDisplay();
+
+        // --- 2. Character Counter ---
+        function countCharacters() {
+            const input = document.getElementById('charCountInput').value;
+            document.getElementById('charCount').textContent = input.length;
+        }
+
+        // --- 3. Basic Calculator ---
+        function calculate() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const operator = document.getElementById('operator').value;
+            let result;
+
+            switch (operator) {
+                case '+': result = num1 + num2; break;
+                case '-': result = num1 - num2; break;
+                case '*': result = num1 * num2; break;
+                case '/': result = num2 !== 0 ? num1 / num2 : 'Error (Div by 0)'; break;
+                default: result = 'Invalid Operator';
+            }
+            document.getElementById('calculatorResult').textContent = 'Result: ' + result;
+        }
+        // Run once on load
+        calculate();
+
+        // --- 4. Random Number Generator ---
+        function generateRandomNumber() {
+            const max = parseInt(document.getElementById('maxNum').value, 10);
+            if (isNaN(max) || max < 1) {
+                document.getElementById('randomNumberDisplay').textContent = 'Invalid Max';
+                return;
+            }
+            const randomNumber = Math.floor(Math.random() * max) + 1;
+            document.getElementById('randomNumberDisplay').textContent = randomNumber;
+        }
+
+        // --- 5. Simple To-Do List ---
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const list = document.getElementById('todoList');
+            const taskText = input.value.trim();
+
+            if (taskText !== "") {
+                const li = document.createElement('li');
+                li.textContent = taskText;
+                li.onclick = function() { toggleDone(this); };
+                list.appendChild(li);
+                input.value = ''; // Clear input
+            }
+        }
+        function toggleDone(liElement) {
+            liElement.classList.toggle('done');
+        }
+
+        // --- 6. Text Case Converter ---
+        function convertCase() {
+            const input = document.getElementById('caseInput').value;
+            document.getElementById('upperCaseOutput').textContent = input.toUpperCase();
+            document.getElementById('lowerCaseOutput').textContent = input.toLowerCase();
+        }
+
+        // --- 7. Click Counter ---
+        let count = 0;
+        function incrementCount() {
+            count++;
+            document.getElementById('clickCount').textContent = count;
+        }
+
+        // --- 8. Dark/Light Mode Toggle ---
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // --- 9. Image Fader (Opacity) ---
+        function changeOpacity() {
+            const range = document.getElementById('opacityRange');
+            const image = document.getElementById('fadeImage');
+            const value = parseFloat(range.value).toFixed(2);
+
+            image.style.opacity = range.value;
+            document.getElementById('opacityValue').textContent = value;
+        }
+        // Initialize opacity display
+        changeOpacity();
+
+        // --- 10. Unit Converter (Meters to Feet) ---
+        function convertUnit() {
+            const meters = parseFloat(document.getElementById('metersInput').value);
+            const feet = meters * 3.28084;
+            document.getElementById('feetOutput').textContent = isNaN(feet) ? '0' : feet.toFixed(5);
+        }
+        // Initialize conversion
+        convertUnit();
+    </script>
+
+</body>
+</html>
